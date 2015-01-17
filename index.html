@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.min.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+
+        function preload () {
+            //TODO remove/replace logo
+            game.load.image('logo', 'phaser.png');
+
+            //initially set p1_avatar to jake_tile
+            game.load.image('p1_avatar', 'img/jake_tile.png');
+
+        }
+
+        //initialize vars here
+        var tileSide = 200;
+
+        function create () {
+
+            // var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
+            // logo.anchor.setTo(0.5, 0.5);
+
+            var p1_avatar = game.add.sprite(0,0,'p1_avatar');
+            p1_avatar.width = tileSide;
+            p1_avatar.height = tileSide;
+        }
+
+    };
+
+    </script>
+
+    </body>
+</html>
