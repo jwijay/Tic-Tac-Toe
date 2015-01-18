@@ -17,17 +17,26 @@
             //TODO remove/replace logo
             game.load.image('logo', 'phaser.png');
 
+            //load spritesheet!! (TODO: switch images to use spritesheet)
+            game.load.spritesheet('tile', 'img/sprites.png', 200, 200);
+
             //set blank tiles (TODO: set to actual blank tile)
             game.load.image('blank', 'img/jake_tile.png');
 
             //initially set p1_avatar to jake_tile
             game.load.image('p1_avatar', 'img/bmo_tile.png');
 
+            game.load.image('p2_avatar', 'img/finn_tile.png');
+
         }
 
         //initialize vars here
         var tileSide = 200;
-        var tile = 'blank';
+
+        //tile spritesheet order (0-5): pb, marcy, lsp, jake, finn, bmo
+        var blank = 3;  //jake
+        var player1 = 5;
+        var player2;
 
 
         function create () {
@@ -42,10 +51,10 @@
                 tilePosX = tilePositions[i][0]*200;
                 tilePosY = tilePositions[i][1]*200;
 
-                tiles[i] = game.add.sprite(tilePosX,tilePosY,tile);
+                tiles[i] = game.add.sprite(tilePosX,tilePosY,'tile',blank);
                 tiles[i].width = tileSide;
                 tiles[i].height = tileSide;
-                tiles[i].frameName = "img/jake_tile.png";
+                tiles[i].frameName = "tile-" + tilePosX.toString() + "-" + tilePosY.toString();
 
                 // This shitz be important.
                 tiles[i].inputEnabled = true;
@@ -56,15 +65,15 @@
         }
 
         function actionOnClick (currTile) {
-            if (tile === 'blank') {
-              tile = 'p1_avatar';
+            if (currTile.frame === blank) {
+              currTile.frame = player1;
             } else {
-              tile = 'blank';
+              currTile.frame = blank;
             }
 
-            var tile1 = game.add.sprite(currTile.x,currTile.y,tile);
-            tile1.width = tileSide;
-            tile1.height = tileSide;
+            //var tileSprite = game.add.sprite(currTile.x,currTile.y,tile);
+            //tileSprite.width = tileSide;
+            //tileSprite.height = tileSide;
 
         }
 
