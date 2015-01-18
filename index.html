@@ -17,6 +17,9 @@
             //TODO remove/replace logo
             game.load.image('logo', 'phaser.png');
 
+            //set blank tiles (TODO: set to actual blank tile)
+            game.load.image('blank', 'img/bmo_tile.png');
+
             //initially set p1_avatar to jake_tile
             game.load.image('p1_avatar', 'img/jake_tile.png');
 
@@ -24,15 +27,35 @@
 
         //initialize vars here
         var tileSide = 200;
+        var tile = 'blank';
 
         function create () {
 
             // var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
             // logo.anchor.setTo(0.5, 0.5);
 
-            var p1_avatar = game.add.sprite(0,0,'p1_avatar');
-            p1_avatar.width = tileSide;
-            p1_avatar.height = tileSide;
+
+
+            var tile1 = game.add.sprite(0,0,tile);
+            tile1.width = tileSide;
+            tile1.height = tileSide;
+
+            // This shitz be important.
+            tile1.inputEnabled = true;
+            tile1.events.onInputDown.add(actionOnClick,this);
+        }
+
+        function actionOnClick () {
+            if (tile === 'blank') {
+              tile = 'p1_avatar';
+            } else {
+              tile = 'blank';
+            }
+
+            var tile1 = game.add.sprite(0,0,tile);
+            tile1.width = tileSide;
+            tile1.height = tileSide;
+
         }
 
     };
