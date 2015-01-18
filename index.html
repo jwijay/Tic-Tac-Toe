@@ -11,17 +11,17 @@
 
     window.onload = function() {
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+        var game = new Phaser.Game(600, 600, Phaser.AUTO, '', { preload: preload, create: create });
 
         function preload () {
             //TODO remove/replace logo
             game.load.image('logo', 'phaser.png');
 
             //set blank tiles (TODO: set to actual blank tile)
-            game.load.image('blank', 'img/bmo_tile.png');
+            game.load.image('blank', 'img/jake_tile.png');
 
             //initially set p1_avatar to jake_tile
-            game.load.image('p1_avatar', 'img/jake_tile.png');
+            game.load.image('p1_avatar', 'img/bmo_tile.png');
 
         }
 
@@ -29,30 +29,40 @@
         var tileSide = 200;
         var tile = 'blank';
 
+
         function create () {
 
             // var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
             // logo.anchor.setTo(0.5, 0.5);
 
+            var tilePositions = [[0,0], [0,1], [0,2], [1,0], [1,1], [1,2], [2,0], [2,1], [2,2]];
+            var tiles = [];
+
+            for (var i = 0; i < 10; i++) {
+                tilePosX = tilePositions[i][0]*200;
+                tilePosY = tilePositions[i][1]*200;
+
+                tiles[i] = game.add.sprite(tilePosX,tilePosY,tile);
+                tiles[i].width = tileSide;
+                tiles[i].height = tileSide;
+                tiles[i].frameName = "img/jake_tile.png";
+
+                // This shitz be important.
+                tiles[i].inputEnabled = true;
+                tiles[i].events.onInputDown.add(actionOnClick,this);
+            }
 
 
-            var tile1 = game.add.sprite(0,0,tile);
-            tile1.width = tileSide;
-            tile1.height = tileSide;
-
-            // This shitz be important.
-            tile1.inputEnabled = true;
-            tile1.events.onInputDown.add(actionOnClick,this);
         }
 
-        function actionOnClick () {
+        function actionOnClick (currTile) {
             if (tile === 'blank') {
               tile = 'p1_avatar';
             } else {
               tile = 'blank';
             }
 
-            var tile1 = game.add.sprite(0,0,tile);
+            var tile1 = game.add.sprite(currTile.x,currTile.y,tile);
             tile1.width = tileSide;
             tile1.height = tileSide;
 
