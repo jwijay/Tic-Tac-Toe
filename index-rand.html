@@ -82,8 +82,7 @@
 
         function actionOnClick (currTile) {
             if (currTile.frame === blank) {
-                //currTile.frame = player1;
-                //Just for funsies, making the clicked-tiles show random avatar images!
+                currTile.frame = player1;
                 currTile.frame = Math.floor(Math.random()*6);
             } else {
               currTile.frame = blank;
