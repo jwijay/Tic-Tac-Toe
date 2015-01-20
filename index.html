@@ -72,12 +72,11 @@
                 tilePositions[currentTilePos][2] = '1';
                 
                 turn = 2;
-
-                setTimeout(computerPlay(),4000);
+                
               }
-            } else {
-              //while randomTile returns occupied tile and...
-              
+              setTimeout(computerPlay,1000);   
+            } else {   
+                
             /*
               if (currTile.frame === blank) {
                 currTile.frame = player2;
@@ -86,6 +85,7 @@
 
                 turn = 1;*/
             }
+
 
             //Sample debugging message (see if game will display message on player's click)
             message = "Player " + turn + " Moved.";
@@ -98,7 +98,6 @@
 
           while (randomTile.frame !== blank) {
             randomTile = tiles[Math.floor(Math.random()*9)];
-            
           }
           randomTile.frame = player2;
           turn = 1;
