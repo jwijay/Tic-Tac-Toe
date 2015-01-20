@@ -72,15 +72,19 @@
                 tilePositions[currentTilePos][2] = '1';
                 
                 turn = 2;
+
+                setTimeout(computerPlay(),4000);
               }
             } else {
+              //while randomTile returns occupied tile and...
+              
+            /*
               if (currTile.frame === blank) {
                 currTile.frame = player2;
                 //set tilePosition as occupied by player '2'
                 tilePositions[currentTilePos][2] = '2';
 
-                turn = 1;
-              }
+                turn = 1;*/
             }
 
             //Sample debugging message (see if game will display message on player's click)
@@ -90,6 +94,14 @@
         }
 
         function computerPlay () {
+          var randomTile = tiles[Math.floor(Math.random()*9)];
+
+          while (randomTile.frame !== blank) {
+            randomTile = tiles[Math.floor(Math.random()*9)];
+            
+          }
+          randomTile.frame = player2;
+          turn = 1;
         }
 
     };
