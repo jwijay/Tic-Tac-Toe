@@ -35,18 +35,19 @@
 
         var style = { font: "40px Arial", fill: "#ff0044", align: "center" };
         var message = '';
+        
+        var winPositions = [[0,4,8], [2,4,6],[0,3,6],[1,4,7],[2,5,8],[0,1,2],[3,4,5],[6,7,8]];
         var winner = '';
         var turn = 1;   //1 (player1) || 2 (player 2)
 
         function create () {
 
             //From top to bottom, then left to right.
-            tilePositions = [[0,0], [0,1], [0,2], [1,0], [1,1], [1,2], [2,0], [2,1], [2,2]];
+            tilePositions = [[0,0,''], [0,1,''], [0,2,''], [1,0,''], [1,1,''], [1,2,''], [2,0,''], [2,1,''], [2,2,'']];
 
             for (var i = 0; i < 9; i++) {
                 tilePosX = tilePositions[i][0]*tileSide;
                 tilePosY = tilePositions[i][1]*tileSide;
-                tilePositions[i][2] = '';   //store who is occupying tile (player1, player2, etc)
 
                 tiles[i] = game.add.sprite(tilePosX,tilePosY,'tiles',blank);
                 tiles[i].width = tileSide;
@@ -63,44 +64,65 @@
 
         }
 
-        function actionOnClick (currTile) {
-            currentTilePos = tiles.indexOf(currTile);
+        function actionOnClick(currTile) {
+          //on click, set tile to current player (turn's) tile sprite!
+          var currentTilePos = tiles.indexOf(currTile);
+
+          if (currTile.frame === blank) {
             if (turn === 1) {
-              if (currTile.frame === blank) {
-                currTile.frame = player1;
-                //set tilePosition as occupied by player '1'
-                tilePositions[currentTilePos][2] = '1';
-                
-                turn = 2;
-                
+              currTile.frame = player1;
+
+              message = "Player 1 moved.";
+              console.log(message);
+
+              //checking for winner after each turn, and for now just printing a message if winner is found!
+              if (checkForWinner(player1)) {
+                message = "Player 1 wins!";
+                console.log(message);
               }
-              setTimeout(computerPlay,1000);   
-            } else {   
-                
-            /*
-              if (currTile.frame === blank) {
-                currTile.frame = player2;
-                //set tilePosition as occupied by player '2'
-                tilePositions[currentTilePos][2] = '2';
-
-                turn = 1;*/
+              //let's have the computer play
+              setTimeout(computerPlay,1000);
+            } else {
+              //turn must be player2's/computer's
+              //currTile.frame = player2; //player2
             }
-
-
-            //Sample debugging message (see if game will display message on player's click)
-            message = "Player " + turn + " Moved.";
-
-            console.log(message);
+          }
         }
 
-        function computerPlay () {
-          var randomTile = tiles[Math.floor(Math.random()*9)];
+        function computerPlay() {
+          var tileToFloop = tiles[Math.floor(Math.random()*9)];
 
-          while (randomTile.frame !== blank) {
-            randomTile = tiles[Math.floor(Math.random()*9)];
+          while (tileToFloop.frame !== blank) {
+            tileToFloop = tiles[Math.floor(Math.random()*9)];
           }
-          randomTile.frame = player2;
-          turn = 1;
+
+          tileToFloop.frame = player2;
+
+          message = "Computer moved.";
+          console.log(message);
+
+          //check for winner!
+          if (checkForWinner(player2)) {
+            message = "Player 2 (computer) wins!";
+            console.log(message);
+          }
+        }
+
+        function checkForWinner(playerFrame) {
+          for (var i = 0; i < winPositions.length; i++) {
+            //there are 8 winning positions, stored as an array of arrays (with 3 values/indexes in each array)
+
+            //there's 3 values in each win position element (so we just need the length of the first win position)
+              var indexesToCheck = winPositions[i];
+              //should return a number (index of tile to check)
+              if (tiles[indexesToCheck[0]].frame === tiles[indexesToCheck[1]].frame && tiles[indexesToCheck[1]].frame === tiles[indexesToCheck[2]].frame) {
+                //console.log(tiles[indexesToCheck[0]]);
+                if (tiles[indexesToCheck[0]].frame === playerFrame) {
+                  //we have a freakin' winner!
+                  return true;
+                }
+              }
+          }
         }
 
     };
